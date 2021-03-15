@@ -88,7 +88,7 @@ write_files:
 
 bootcmd:
 - ip addr add ${public_ip} dev eth0
-- mkdir -p /mnt/data; mount ${data_disk} /mnt/data
+- mkdir -p /mnt/data; mount -o discard,defaults ${data_disk} /mnt/data
 - mkdir -p /var/lib/mysql /mnt/data/mysql; mount --bind /mnt/data/mysql /var/lib/mysql
 - mkdir -p /var/www /mnt/data/www; mount --bind /mnt/data/www /var/www
 
