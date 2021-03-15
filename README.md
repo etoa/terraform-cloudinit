@@ -31,6 +31,8 @@ Run
 
 Login with SSH to the server(s) and check `/var/log/cloud-init-output.log` to see if everything has been setup properly.
 
+*Make sure the floating IP has been assigned to your servers; you might need to do this manually for now.*
+
 Visit https://YOUR_HOSTNAME/ to run the initial setup of the web application.
 
 In case HTTPS is not working, there might have been an issue with certbot who requests Let's Encrypt SSL certificates. In case your domainname was not resolved (because it has not yet propagated through the DNS system, or the floating IP has not been assigned properly), run certbot again via SSH:
