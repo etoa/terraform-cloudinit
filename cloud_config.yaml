@@ -101,6 +101,8 @@ runcmd:
  - a2enconf php7.2-etoa-fpm
  - a2ensite etoa
  - a2dissite 000-default
+ - a2enmod http2
+ - echo "Protocols h2 http/1.1" >> /etc/apache2/apache2.conf
  - systemctl reload apache2
  - rm /etc/php/7.2/fpm/pool.d/www.conf
  - systemctl reload php7.2-fpm.service
