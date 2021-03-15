@@ -106,4 +106,4 @@ runcmd:
  - mysql -u root < /root/init.sql
  - certbot --apache --agree-tos -m mail@etoa.ch -d ${hostname} --non-interactive --redirect
  - rm -f /var/www/etoa/htdocs/tmp/eventhandler.pid
- - su etoa -s /bin/bash -c "cd /var/www/etoa/eventhandler && cmake . && make clean && make"
+ - su etoa -s /bin/bash -c "cd /var/www/etoa/eventhandler && cmake . && make"
