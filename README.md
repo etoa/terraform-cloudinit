@@ -1,8 +1,10 @@
 # Etoa Gameserver Terraform definition
 
-Terraform configuration for setting up EtoA gameservers in Hetzner cloud.
+[Terraform](https://www.terraform.io/) configuration for setting up EtoA gameservers in the [Hetzner cloud](https://console.hetzner.cloud/).
 
-https://console.hetzner.cloud/
+This project defines the gameserver cloud.infrastructure using Terraform.
+
+> Note: Servers can also be created manually and individually; just use the included `cloud_config.yml` as [user data](https://cloudinit.readthedocs.io/en/latest/topics/format.html) with any [cloud-init](https://cloud-init.io/) compatible provider. You only need to replace the variables `${...}` with your own values.
 
 Servers are based on Ubuntu 18.04 as this is still maintained and ships with PHP 7.2 which is the currently supported PHP version of EtoA GUI.
 
