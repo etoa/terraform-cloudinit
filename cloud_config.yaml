@@ -93,7 +93,7 @@ bootcmd:
 - mkdir -p /var/www /mnt/data/www; mount --bind /mnt/data/www /var/www
 
 runcmd:
- - if [ -d /var/www/etoa ]; then cd /var/www/etoa; git checkout ${webapp_branch}; else git clone --branch ${webapp_branch} https://github.com/etoa/etoa-gui.git /var/www/etoa; fi
+ - if [ -d /var/www/etoa ]; then cd /var/www/etoa; git checkout ${webapp_branch}; git pull; else git clone --branch ${webapp_branch} https://github.com/etoa/etoa-gui.git /var/www/etoa; fi
  - chown -R etoa:etoa /var/www/etoa
  - su etoa -s /bin/bash -c "cd /var/www/etoa; composer install"
  - a2enmod proxy_fcgi setenvif
@@ -105,4 +105,5 @@ runcmd:
  - systemctl reload php7.2-fpm.service
  - mysql -u root < /root/init.sql
  - certbot --apache --agree-tos -m mail@etoa.ch -d ${hostname} --non-interactive --redirect
- - su etoa -s /bin/bash -c "cd /var/www/etoa/eventhandler && cmake . && make"
+ - rm -f /var/www/etoa/htdocs/tmp/eventhandler.pid
+ - su etoa -s /bin/bash -c "cd /var/www/etoa/eventhandler && cmake . && make clean && make"
