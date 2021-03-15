@@ -13,7 +13,7 @@ See https://learn.hashicorp.com/tutorials/terraform/install-cli
 ## Prerequisites
 
 * Have a Hetzner Cloud API token
-* Have your SSH key registered in the Hetzner cloud
+* Have your SSH key registered in the Hetzner cloud. Check that the name of your SSH key is listed in `main.tf` at `locals` -> `ssh_keys`.
 * Have a floating IP (at location `Nürnberg`) defined for every gameserver
 * Mapped the floatings IP to gameserver hostnames in the DNS zone (https://dns.hetzner.com/)
 
@@ -29,7 +29,12 @@ Run
 
 Login with SSH to the server(s) and check `/var/log/cloud-init-output.log` to see if everything has been setup properly.
 
-Visit https//YOUR_HOSTNAME/ to run the initial setup of the web application.
+Visit https://YOUR_HOSTNAME/ to run the initial setup of the web application.
+
+In case HTTPS is not working, there might have been an issue with certbot who requests Let's Encrypt SSL certificates. In case your domainname was not resolved (because it has not yet propagated through the DNS system, or the floating IP has not been assigned properly), run certbot again via SSH:
+
+    certbot --apache --agree-tos -m mail@etoa.ch -d YOUR_HOSTNAME --non-interactive --redirect
+
 For the database, use `etoa` as user, password and database name. After that:
 * Create an admin user
 * login to the admin panel
