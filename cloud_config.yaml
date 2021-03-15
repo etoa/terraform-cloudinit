@@ -80,6 +80,7 @@ write_files:
   path: /etc/network/interfaces.d/60-my-floating-ip.cfg
 - content: |
     SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+    SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'STRICT_TRANS_TABLES',''));
     CREATE DATABASE IF NOT EXISTS etoa;
     GRANT USAGE ON *.* TO etoa@localhost IDENTIFIED BY 'etoa';
     GRANT ALL PRIVILEGES ON etoa.* TO etoa@localhost;
