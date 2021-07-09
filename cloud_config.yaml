@@ -33,11 +33,15 @@ packages:
 write_files:
 - content: |
     <VirtualHost *:80>
-            ServerName ${hostname}
-            ServerAdmin mail@etoa.ch
-            DocumentRoot /var/www/etoa/htdocs
-            ErrorLog $${APACHE_LOG_DIR}/etoa_error.log
-            CustomLog $${APACHE_LOG_DIR}/etoa_access.log combined
+        ServerName ${hostname}
+        ServerAdmin mail@etoa.ch
+        DocumentRoot /var/www/etoa/htdocs
+        ErrorLog $${APACHE_LOG_DIR}/etoa_error.log
+        CustomLog $${APACHE_LOG_DIR}/etoa_access.log combined
+        <Location />
+            Script PUT /api.php
+            Script DELETE /api.php
+        </Location>            
     </VirtualHost>
   path: /etc/apache2/sites-available/etoa.conf
 - content: |
@@ -101,7 +105,7 @@ runcmd:
  - if [ -d /var/www/etoa ]; then cd /var/www/etoa; git checkout ${webapp_branch}; git pull; else git clone --branch ${webapp_branch} https://github.com/etoa/etoa-gui.git /var/www/etoa; fi
  - chown -R etoa:etoa /var/www/etoa
  - su etoa -s /bin/bash -c "cd /var/www/etoa; composer install"
- - a2enmod proxy_fcgi setenvif
+ - a2enmod proxy_fcgi setenvif actions
  - a2enconf php7.2-etoa-fpm
  - a2ensite etoa
  - a2dissite 000-default
