@@ -10,7 +10,7 @@ terraform {
 variable "hcloud_token" {}
 
 locals {
-  ssh_keys = ["mrcage"]
+  ssh_keys = ["mrcage", "glaubinix"]
   location = "nbg1"
 }
 
@@ -95,7 +95,7 @@ resource "hcloud_server" "test" {
   ssh_keys = local.ssh_keys
   user_data = templatefile("cloud_config.yaml", {
     hostname = "test.etoa.net"
-    public_ip = "116.202.178.35"
+    public_ip = "116.202.178.35" # todo test doesn't have the floating IP anymore
     webapp_branch = "master"
     data_disk = hcloud_volume.test_data.linux_device
   })
@@ -115,4 +115,35 @@ resource "hcloud_volume" "test_data" {
 resource "hcloud_volume_attachment" "test_data" {
   volume_id = hcloud_volume.test_data.id
   server_id = hcloud_server.test.id
+}
+
+
+resource "hcloud_server" "round21" {
+  name = "round21.etoa.net"
+  image = "ubuntu-18.04"
+  server_type = "cx11"
+  location = local.location
+  ssh_keys = local.ssh_keys
+  user_data = templatefile("cloud_config.yaml", {
+    hostname = "round21.etoa.net"
+    public_ip = "116.202.178.35"
+    webapp_branch = "3.6-stable"
+    data_disk = hcloud_volume.round21_data.linux_device
+  })
+  firewall_ids = []
+  depends_on = [
+    hcloud_volume.round21_data,
+  ]
+}
+
+resource "hcloud_volume" "round21_data" {
+  name = "round21-data"
+  size = 10
+  location = local.location
+  format = "ext4"
+}
+
+resource "hcloud_volume_attachment" "round21_data" {
+  volume_id = hcloud_volume.round21_data.id
+  server_id = hcloud_server.round21.id
 }
